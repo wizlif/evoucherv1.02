@@ -1,0 +1,84 @@
+
+<!--Script for the high charts figures-->
+<script type="text/javascript">
+$(function () {
+    $('#container').highcharts({
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false,
+            type: 'pie'
+        },
+        title: {
+            text: 'Farmers Trained'
+        },
+        tooltip: {
+            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: true,
+                    format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                    style: {
+                        color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                    }
+                }
+            }
+        },
+        series: [{
+            name: 'Brands',
+            colorByPoint: true,
+            data: [{
+                name: 'Male',
+                y: 56.33
+            }, {
+                name: 'Female',
+                y: 24.03,
+                sliced: true,
+                selected: true
+            }]
+        }]
+    });
+});
+</script>
+ <!-- skycons -->
+  <script src="js/skycons/skycons.min.js"></script>
+  <script>
+    var icons = new Skycons({
+        "color": "#73879C"
+      }),
+      list = [
+        "clear-day", "clear-night", "partly-cloudy-day",
+        "partly-cloudy-night", "cloudy", "rain", "sleet", "snow", "wind",
+        "fog"
+      ],
+      i;
+
+    for (i = list.length; i--;)
+      icons.set(list[i], list[i]);
+
+    icons.play();
+  </script>
+
+<script>
+    $(function() {
+      $('#world-map-gdp').vectorMap({
+        map: 'world_mill_en',
+        backgroundColor: 'transparent',
+        zoomOnScroll: false,
+        series: {
+          regions: [{
+            values: gdpData,
+            scale: ['#E6F2F0', '#149B7E'],
+            normalizeFunction: 'polynomial'
+          }]
+        },
+        onRegionTipShow: function(e, el, code) {
+          el.html(el.html() + ' (GDP - ' + gdpData[code] + ')');
+        }
+      });
+    });
+  </script>

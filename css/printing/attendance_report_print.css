@@ -1,0 +1,10 @@
+@media print {
+    .table td:before,
+    .table th:before {
+        background-color: inherit !important;
+    }
+
+    .table-stripe {
+        background-color: #dedede !important;
+    }
+}

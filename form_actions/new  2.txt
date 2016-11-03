@@ -1,0 +1,47 @@
+
+
+CREATE  VIEW `evoucher_attendace_sheet_v` AS select 
+`t`.`event_id` AS `id`,
+(select f.name from `evoucher_farmer_reg_tb` `f` where (`f`.`id` = `t`.`farmer_id`)) AS `name` ,
+(select f.phone from `evoucher_farmer_reg_tb` `f` where (`f`.`id` = `t`.`farmer_id`)) AS `phone` ,
+(select f.gender from `evoucher_farmer_reg_tb` `f` where (`f`.`id` = `t`.`farmer_id`)) AS `gender` ,
+select f.birth_date from `evoucher_farmer_reg_tb` `f` where (`f`.`id` = `t`.`farmer_id`)) AS `birth_date` ,
+(select h.training_topic from `evoucher_trainings_tb` `h` where (`h`.`id` = `t`.`event_id`)) AS `district`,
+(select j.training_district from `evoucher_trainings_tb` `j` where (`j`.`id` = `t`.`event_id`)) AS `district`,
+(select k.training_sub_county from `evoucher_trainings_tb` `k` where (`k`.`id` = `t`.`event_id`)) AS `subcounty`,
+(select l.training_parish from `evoucher_trainings_tb` `l` where (`l`.`id` = `t`.`event_id`)) AS `parish`,
+(select m.name from `va_tb` `m` where (`m`.`id` = `t`.`va_id`)) AS `va_name`,
+(select z.phone from `va_tb` `z` where (`z`.`id` = `t`.`va_id`)) AS `va_phone`,
+`t`.`time_stamp` AS `time_stamp` 
+from `evoucher_orders_tb` `t`;
+
+
+CREATE  VIEW `evoucher_attendace_v` AS select 
+`t`.`id` AS `id`,
+`t`.`training_topic` AS `training_topic`,
+`t`.`training_date` AS `training_date`,
+`t`.`training_district` AS `training_district`,
+`t`.`training_sub_county` AS `training_sub_county`,
+`t`.`training_parish` AS `training_parish`,
+`t`.`training_start_time` AS `training_start_time`,
+`t`.`training_end_time` AS `training_end_time`,
+(select count(0) from `evoucher_orders_tb` `f` where (`f`.`event_id` = `t`.`id`)) AS `attendence` 
+from `evoucher_trainings_tb` `t`;
+
+
+
+The following script uses the DATE_FORMAT() function to display different formats. We will use the NOW() function to get the current date/time:
+
+DATE_FORMAT(NOW(),'%b %d %Y %h:%i %p')
+DATE_FORMAT(NOW(),'%m-%d-%Y')
+DATE_FORMAT(NOW(),'%d %b %y')
+DATE_FORMAT(NOW(),'%d %b %Y %T:%f')
+The result would look something like this:
+
+
+
+SELECT  `equipment_id`,`equipment_name` , (SELECT COUNT(*) FROM evoucher_order_v m WHERE b.equipment_id=m.equipment_id AND DATE_FORMAT(b.time_stamp,'%d %b %y') =DATE_FORMAT(m.time_stamp,'%d %b %y') AND (deliver_status ="Delivered" OR deliver_status ="Pending Delivery")) as ttl, DATE_FORMAT(b.time_stamp,'%d %b %y') AS date FROM `evoucher_order_v` b WHERE deliver_status ="Delivered" OR deliver_status ="Pending Delivery" GROUP BY equipment_id ,date
+Nov 04 2014 11:45 PM
+11-04-2014
+04 Nov 14
+04 Nov 2014 11:45:34:243
